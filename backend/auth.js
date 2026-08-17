@@ -83,7 +83,7 @@ router.post("/forgot-password", async (req, res) => {
     );
 
     const resetLink =
-  `https://vertex-ai-learning.onrender.com/?token=${resetToken}`;
+  `https://vertex-ai-learning-01.onrender.com/?token=${resetToken}`;
 
    const response = await fetch("https://api.brevo.com/v3/smtp/email", {
   method: "POST",
