@@ -38,7 +38,7 @@ function Chatbot() {
 
     try {
       const response = await fetch(
-        "http://https://vertex-ai-learning.onrender.com/api/chat",
+        "https://vertex-ai-learning.onrender.com/api/chat",
         {
           method: "POST",
           headers: {
@@ -911,7 +911,7 @@ const progressPercentage =
 
       const response =
         await fetch(
-          "http://https://vertex-ai-learning.onrender.com/api/auth/login",
+          "https://vertex-ai-learning.onrender.com/api/auth/login",
           {
             method: "POST",
 
@@ -995,7 +995,7 @@ const progressPercentage =
 
       const response =
         await fetch(
-          "http://https://vertex-ai-learning.onrender.com/api/auth/register",
+          "https://vertex-ai-learning.onrender.com/api/auth/register",
           {
             method: "POST",
 
@@ -1054,7 +1054,7 @@ const progressPercentage =
 
     try {
       const response = await fetch(
-        "http://https://vertex-ai-learning.onrender.com/api/auth/forgot-password",
+        "https://vertex-ai-learning.onrender.com/api/auth/forgot-password",
         {
           method: "POST",
           headers: {
@@ -1114,7 +1114,7 @@ const handleResetPassword = async () => {
     }
 
     const response = await fetch(
-      "http://https://vertex-ai-learning.onrender.com/api/auth/reset-password",
+      "https://vertex-ai-learning.onrender.com/api/auth/reset-password",
       {
         method: "POST",
         headers: {
@@ -1160,7 +1160,7 @@ const fetchCompletedLessons = async () => {
     }
 
     const response = await fetch(
-      "http://https://vertex-ai-learning.onrender.com/api/progress",
+      "https://vertex-ai-learning.onrender.com/api/progress",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -1590,7 +1590,7 @@ useEffect(() => {
 
     try {
       const response = await fetch(
-        "http://https://vertex-ai-learning.onrender.com/api/chat/evaluate-assignment",
+        "https://vertex-ai-learning.onrender.com/api/chat/evaluate-assignment",
         {
           method: "POST",
           headers: {
@@ -1687,7 +1687,7 @@ setAssignmentAnswer("");
       }
 
       const response = await fetch(
-        "http://https://vertex-ai-learning.onrender.com/api/progress/complete",
+        "https://vertex-ai-learning.onrender.com/api/progress/complete",
         {
           method: "POST",
           headers: {

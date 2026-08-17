@@ -1,20 +1,11 @@
 const express = require("express");
-const nodemailer = require("nodemailer");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("./db");
 
 const router = express.Router();
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_APP_PASSWORD,
-  },
-});
+
 // Register
 router.post("/register", async (req, res) => {
   try {
@@ -94,26 +85,33 @@ router.post("/forgot-password", async (req, res) => {
     const resetLink =
   `https://vertex-ai-learning-01.onrender.com/?token=${resetToken}`;
 
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: "Vertex AI LMS - Password Reset",
-      html: `
-        <h2>Vertex AI LMS</h2>
-        <p>Hello ${user.name},</p>
-        <p>You requested to reset your password.</p>
-        <p>Click the button below to reset your password:</p>
+    const response = await fetch("https://api.resend.com/emails", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
+  },
+  body: JSON.stringify({
+    from: "Vertex AI LMS <onboarding@resend.dev>",
+    to: [user.email],
+    subject: "Vertex AI LMS - Password Reset",
+    html: `
+      <h2>Vertex AI LMS</h2>
+      <p>Hello ${user.name},</p>
+      <p>You requested to reset your password.</p>
+      <p>
+        <a href="${resetLink}">Reset Password</a>
+      </p>
+      <p>This link will expire in 15 minutes.</p>
+      <p>If you did not request this, please ignore this email.</p>
+    `,
+  }),
+});
 
-        <p>
-          <a href="${resetLink}">
-            Reset Password
-          </a>
-        </p>
-
-        <p>This link will expire in 15 minutes.</p>
-        <p>If you did not request this, please ignore this email.</p>
-      `,
-    });
+if (!response.ok) {
+  const errorText = await response.text();
+  throw new Error(`Resend error: ${errorText}`);
+}
 
     res.json({
       message: "Password reset link sent to your email.",
