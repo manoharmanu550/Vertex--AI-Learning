@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const db = require("./db");
 
 const router = express.Router();
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -90,7 +91,7 @@ router.post("/forgot-password", async (req, res) => {
     );
 
     const resetLink =
-      `http://localhost:5173/reset-password?token=${resetToken}`;
+  `https://vertex-ai-learning-01.onrender.com/?token=${resetToken}`;
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
@@ -224,5 +225,4 @@ router.post("/reset-password", async (req, res) => {
   }
 });
 
-module.exports = router;
 module.exports = router;
