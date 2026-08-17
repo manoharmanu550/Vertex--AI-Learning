@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const authRoutes = require("./auth");
 const courseRoutes = require("./courses");
 const chatbotRoutes = require("./chatbot");
@@ -34,11 +35,10 @@ app.use("/api/chat", chatbotRoutes);
 /* =========================
    HOME ROUTE
 ========================= */
+app.use(express.static(path.join(__dirname, "dist")));
 
 app.get("/", (req, res) => {
-  res.json({
-    message: "Vertex AI LMS Backend is running!",
-  });
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 /* =========================
