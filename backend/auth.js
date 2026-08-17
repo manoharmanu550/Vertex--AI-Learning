@@ -85,17 +85,25 @@ router.post("/forgot-password", async (req, res) => {
     const resetLink =
   `https://vertex-ai-learning-01.onrender.com/?token=${resetToken}`;
 
-    const response = await fetch("https://api.resend.com/emails", {
+   const response = await fetch("https://api.brevo.com/v3/smtp/email", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
+    "api-key": process.env.BREVO_API_KEY,
   },
   body: JSON.stringify({
-    from: "Vertex AI LMS <onboarding@resend.dev>",
-    to: [user.email],
+    sender: {
+      name: "Vertex AI LMS",
+      email: process.env.EMAIL_USER,
+    },
+    to: [
+      {
+        email: user.email,
+        name: user.name,
+      },
+    ],
     subject: "Vertex AI LMS - Password Reset",
-    html: `
+    htmlContent: `
       <h2>Vertex AI LMS</h2>
       <p>Hello ${user.name},</p>
       <p>You requested to reset your password.</p>
@@ -108,6 +116,10 @@ router.post("/forgot-password", async (req, res) => {
   }),
 });
 
+if (!response.ok) {
+  const errorText = await response.text();
+  throw new Error(`Brevo error: ${errorText}`);
+}
 if (!response.ok) {
   const errorText = await response.text();
   throw new Error(`Resend error: ${errorText}`);
